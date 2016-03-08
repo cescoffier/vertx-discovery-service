@@ -1,0 +1,57 @@
+= Cheatsheets
+
+[[DiscoveryOptions]]
+== DiscoveryOptions
+
+++++
+ @author <a href="http://escoffier.me">Clement Escoffier</a>
+++++
+'''
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[address]]`address`|`String`|-
+|[[announceAddress]]`announceAddress`|`String`|-
+|[[exposedAsService]]`exposedAsService`|`Boolean`|-
+|===
+
+[[Record]]
+== Record
+
+++++
+ @author <a href="http://escoffier.me">Clement Escoffier</a>
+++++
+'''
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[location]]`location`|`Json object`|-
+|[[metadata]]`metadata`|`Json object`|-
+|[[name]]`name`|`String`|-
+|[[registration]]`registration`|`String`|-
+|[[status]]`status`|`link:enums.html#Status[Status]`|-
+|[[type]]`type`|`String`|-
+|===
+
+[[HttpLocation]]
+== HttpLocation
+
+++++
+ @author <a href="http://escoffier.me">Clement Escoffier</a>
+++++
+'''
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[endpoint]]`endpoint`|`String`|-
+|[[host]]`host`|`String`|-
+|[[port]]`port`|`Number (int)`|-
+|[[root]]`root`|`String`|-
+|===
+
