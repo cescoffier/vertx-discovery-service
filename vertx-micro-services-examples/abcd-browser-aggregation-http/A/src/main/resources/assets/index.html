@@ -61,7 +61,12 @@
 
 
     function getName() {
-        return $("#name").val();
+        var val = $("#name").val();
+        if (val === "") {
+            return "vert.x";
+        } else {
+            return val;
+        }
     }
 
     function invoke_a() {
