@@ -20,9 +20,6 @@ public class A extends AbstractVerticle {
 
   @Override
   public void start() throws Exception {
-
-
-
     Router router = Router.router(vertx);
 
     // Publish assets

@@ -9,6 +9,8 @@ A also publishes a HTML page calling A, B, C and D.
 The projects are built using the vert.x source to image support.
  
 ```
+oc login
+# enter admin/admin
 oc new-project vertx-msa-abcd-browser-aggregation
 oc create -f https://raw.githubusercontent.com/cescoffier/vertx-s2i/master/vertx-s2i-all.json -n vertx-msa-abcd-browser-aggregation
 # Wait until the vertx-s2i image has been built, you can check with `oc status`
