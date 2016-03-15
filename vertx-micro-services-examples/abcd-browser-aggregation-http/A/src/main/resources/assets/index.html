@@ -80,14 +80,14 @@
 
     function invoke_c() {
         console.log("Invoking C " + endpoint_c);
-        $.get(endpoint_c + "?name=vert.x", function (data) {
+        $.get(endpoint_c, {name: getName()}, function (data) {
             $("#result").append("<p>C : " + data + "</p>");
         });
     }
 
     function invoke_d() {
         console.log("Invoking D " + endpoint_d);
-        $.get(endpoint_d + "?name=vert.x", function (data) {
+        $.get(endpoint_d, {name: getName()}, function (data) {
             $("#result").append("<p>D : " + data + "</p>");
         });
     }
