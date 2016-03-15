@@ -41,14 +41,14 @@
 
     function invoke_a() {
         console.log("Invoking A " + endpoint_a);
-        $.get(endpoint_a, function (data) {
+        $.get(endpoint_a + "?name=vert.x", function (data) {
             $("#result").append("<p>A : " + data + "</p>");
         });
     }
 
     function invoke_b() {
         console.log("Invoking B " + endpoint_b);
-        $.get(endpoint_b, function (data) {
+        $.get(endpoint_b + "?name=vert.x", function (data) {
             $("#result").append("<p>B : " + data + "</p>");
         });
     }
