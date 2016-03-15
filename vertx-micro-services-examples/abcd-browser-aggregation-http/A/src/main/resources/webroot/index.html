@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Micro-Service Demo - ABCD - Browser Aggregation - HTTP</title>
+
+
+    <style href="bower_components/bootstrap/css/bootstrap.css"></style>
+    <style>
+        body {
+            padding-top: 50px;
+        }
+
+        .head {
+            padding: 40px 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="head">
+        <h1>Vert.x Micro-Services Sample - ABCD - Browser Aggregation - HTTP</h1>
+        <p class="lead">In this sample, this page is consuming 4 services using Ajax and print the result below</p>
+    </div>
+
+    <div id="result">
+
+    </div>
+
+</div>
+
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
+<script>
+    var endpoint_a = "/A";
+    var endpoint_b;
+
+    function invoke_a() {
+        console.log("Invoking A " + endpoint_a);
+        $.get(endpoint_a, function (data) {
+            $("#result").append("<p>A : " + data + "</p>");
+        });
+    }
+
+    function invoke_b() {
+        console.log("Invoking B " + endpoint_b);
+        $.get(endpoint_b, function (data) {
+            $("#result").append("<p>B : " + data + "</p>");
+        });
+    }
+
+
+    $.getJSON("/endpoints", function (data) {
+        console.log("Retrieved " + data);
+        endpoint_b = data[B];
+
+        invoke_a();
+        invoke_b();
+    });
+
+
+</script>
+
+</body>
+</html>

@@ -6,32 +6,26 @@
 
   <parent>
     <groupId>io.vertx</groupId>
-    <artifactId>vertx-micro-service-utils</artifactId>
+    <artifactId>vertx-micro-services-examples</artifactId>
     <version>3.3.0-SNAPSHOT</version>
   </parent>
 
-
-  <artifactId>vertx-micro-services-examples</artifactId>
+  <groupId>io.vertx.sample.abcd.browser-aggregation</groupId>
+  <artifactId>abcd-browser-aggregation-http</artifactId>
 
   <packaging>pom</packaging>
 
   <modules>
-    <module>abcd-browser-aggregation-http</module>
-    <module>vertx-abcd-http</module>
-    <module>vertx-abcd-eventbus</module>
+    <module>A</module>
+    <module>B</module>
+    <module>C</module>
+    <module>D</module>
   </modules>
 
   <dependencies>
     <dependency>
       <groupId>io.vertx</groupId>
-      <artifactId>vertx-discovery-service</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-circuit-breaker</artifactId>
-      <version>${project.version}</version>
+      <artifactId>vertx-web</artifactId>
     </dependency>
   </dependencies>
 
