@@ -18,9 +18,6 @@ public class B extends AbstractVerticle {
   public void start() throws Exception {
     Router router = Router.router(vertx);
 
-    // Publish assets
-    router.route().handler(StaticHandler.create());
-
     // Enable Cors
     router.route().handler(CorsHandler.create("*")
         .allowedMethod(HttpMethod.GET)
