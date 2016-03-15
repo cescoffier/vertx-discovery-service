@@ -98,7 +98,7 @@
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "b:latest"
+                "name": "d:latest"
               }
             }
           }
