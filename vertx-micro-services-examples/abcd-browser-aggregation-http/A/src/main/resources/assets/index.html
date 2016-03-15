@@ -37,7 +37,7 @@
 
 <script>
     var endpoint_a = "/A";
-    var endpoint_b = window.location.hostname.replace("a-", "b-");
+    var endpoint_b = "http://" + window.location.hostname.replace("a-", "b-");
 
     function invoke_a() {
         console.log("Invoking A " + endpoint_a);
