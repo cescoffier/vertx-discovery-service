@@ -21,7 +21,7 @@ public class A extends AbstractVerticle {
     Router router = Router.router(vertx);
 
     // Publish assets
-    router.route().handler(StaticHandler.create());
+    router.route("/assets/*").handler(StaticHandler.create("assets"));
 
     // Enable Cors
     router.route().handler(CorsHandler.create("*")
