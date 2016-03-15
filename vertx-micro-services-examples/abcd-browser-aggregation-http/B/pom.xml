@@ -12,7 +12,7 @@
 
   <properties>
     <stack.version>3.3.0-SNAPSHOT</stack.version>
-    <main.verticle>io.vertx.ext.msa.adbc.A</main.verticle>
+    <main.verticle>io.vertx.ext.msa.adbc.B</main.verticle>
   </properties>
 
   <dependencyManagement>
