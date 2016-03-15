@@ -55,8 +55,8 @@
 
 
     $.getJSON("/endpoints", function (data) {
-        console.log("Retrieved " + data);
-        endpoint_b = data[B];
+        console.log("Retrieved ", data);
+        endpoint_b = data["B"];
 
         invoke_a();
         invoke_b();
