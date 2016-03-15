@@ -1,4 +1,4 @@
-package io.vertx.ext.msa.adbc;
+package io.vertx.ext.msa.abcd;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpMethod;
