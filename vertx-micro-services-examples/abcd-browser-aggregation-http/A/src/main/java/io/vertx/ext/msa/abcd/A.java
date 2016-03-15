@@ -44,14 +44,6 @@ public class A extends AbstractVerticle {
       context.response().putHeader("content-type", "application/json").end(json.encodePrettily());
     });
 
-    router.route(HttpMethod.GET, "/endpoints").handler(context -> {
-      String b = "http://" + System.getenv("B_SERVICE_HOST");
-      //TODO c and d.
-      JsonObject result = new JsonObject()
-          .put("B", b);
-      context.response().putHeader("content-type", "application/json").end(result.encode());
-    });
-
     vertx.createHttpServer().requestHandler(router::accept).listen(8080);
   }
 }

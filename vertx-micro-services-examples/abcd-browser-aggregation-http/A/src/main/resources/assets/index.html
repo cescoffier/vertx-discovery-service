@@ -37,7 +37,7 @@
 
 <script>
     var endpoint_a = "/A";
-    var endpoint_b;
+    var endpoint_b = window.location.hostname.replace("a-", "b-");
 
     function invoke_a() {
         console.log("Invoking A " + endpoint_a);
@@ -53,16 +53,8 @@
         });
     }
 
-
-    $.getJSON("/endpoints", function (data) {
-        console.log("Retrieved ", data);
-        endpoint_b = data["B"];
-
-        invoke_a();
-        invoke_b();
-    });
-
-
+    invoke_a();
+    invoke_b();
 </script>
 
 </body>
