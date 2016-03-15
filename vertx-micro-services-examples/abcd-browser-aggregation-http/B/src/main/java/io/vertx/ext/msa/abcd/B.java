@@ -30,5 +30,7 @@ public class B extends AbstractVerticle {
     router.route(HttpMethod.GET, "/").handler(context -> {
       context.response().end("Hola " + context.request().getParam("name"));
     });
+
+    vertx.createHttpServer().requestHandler(router::accept).listen(8080);
   }
 }

@@ -40,5 +40,7 @@ public class A extends AbstractVerticle {
           .put("B", b);
       context.response().putHeader("content-type", "application/json").end(result.encode());
     });
+
+    vertx.createHttpServer().requestHandler(router::accept).listen(8080);
   }
 }
