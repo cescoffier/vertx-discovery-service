@@ -31,7 +31,7 @@
     {
       "description": "Git branch/tag reference",
       "name": "GIT_REF",
-      "value": "master"
+      "value": "samples"
     },
     {
       "description": "Git Directory",
