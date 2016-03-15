@@ -48,7 +48,7 @@
 
     function invoke_b() {
         console.log("Invoking B " + endpoint_b);
-        $.get(endpoint_b + "?name=vert.x", function (data) {
+        $.get("http://a-vertx-msa-abcd-browser-aggregation.apps.10.2.2.2.xip.io" + "?name=vert.x", function (data) {
             $("#result").append("<p>B : " + data + "</p>");
         });
     }
