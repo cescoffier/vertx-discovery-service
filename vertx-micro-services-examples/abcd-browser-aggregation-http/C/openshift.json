@@ -48,7 +48,7 @@
         "output": {
           "to": {
             "kind": "ImageStreamTag",
-            "name": "b:latest"
+            "name": "c:latest"
           }
         },
         "resources": {}

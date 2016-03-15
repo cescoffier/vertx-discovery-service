@@ -36,7 +36,7 @@
                 <label for="name">Name: </label>
                 <input type="text" class="form-control" id="name" placeholder="vert.x">
             </div>
-            <button type="submit" class="btn btn-primary">Invoke</button>
+            <button id="invoke" type="submit" class="btn btn-primary">Invoke</button>
         </form>
     </div>
 
@@ -57,16 +57,18 @@
     var endpoint_c = "http://" + window.location.hostname.replace("a-", "c-");
     var endpoint_d = "http://" + window.location.hostname.replace("a-", "d-");
 
+
+    function getName() {
+        return $("#name").val();
+    }
+
     function invoke_a() {
         console.log("Invoking A " + endpoint_a);
-        $.get(endpoint_a + "?name=vert.x", function (data) {
+        $.get(endpoint_a, {name: getName()}, function (data) {
             $("#result").append("<p>A : " + data + "</p>");
         });
     }
 
-    function getName() {
-
-    }
     function invoke_b() {
         console.log("Invoking B " + endpoint_b);
         $.get(endpoint_b, {name: getName()}, function (data) {
@@ -88,8 +90,13 @@
         });
     }
 
-    invoke_a();
-    invoke_b();
+    $("#invoke").click(function() {
+        invoke_a();
+        invoke_b();
+        invoke_c();
+        invoke_d();
+    });
+
 </script>
 
 </body>
