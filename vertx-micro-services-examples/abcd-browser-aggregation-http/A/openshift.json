@@ -2,9 +2,9 @@
   "kind": "List",
   "apiVersion": "v1",
   "metadata": {
-    "name": "vertx-msa-abcd-browser-aggregation-http-b",
+    "name": "vertx-msa-abcd-browser-aggregation-http-a",
     "annotations": {
-      "description": "Vert.x Micro-Service Example - Browser aggregation - B",
+      "description": "Vert.x Micro-Service Example - Browser aggregation - A",
       "iconClass": "icon-jboss",
       "tags": "vert.x, eventbus, java, micro-services"
     }
@@ -19,7 +19,7 @@
       "kind": "BuildConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "b"
+        "name": "a"
       },
       "spec": {
         "triggers": [
@@ -34,7 +34,7 @@
             "uri": "https://github.com/cescoffier/vertx-discovery-service.git",
             "ref": "samples"
           },
-          "contextDir": "vertx-micro-services-examples/abcd-browser-aggregation-http/B"
+          "contextDir": "vertx-micro-services-examples/abcd-browser-aggregation-http/A"
         },
         "strategy": {
           "type": "Source",
@@ -48,7 +48,7 @@
         "output": {
           "to": {
             "kind": "ImageStreamTag",
-            "name": "b:latest"
+            "name": "a:latest"
           }
         },
         "resources": {}
@@ -58,7 +58,7 @@
       "kind": "ImageStream",
       "apiVersion": "v1",
       "metadata": {
-        "name": "b"
+        "name": "a"
       },
       "spec": {
         "dockerImageRepository": "",
@@ -73,7 +73,7 @@
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "b"
+        "name": "a"
       },
       "spec": {
         "strategy": {
@@ -94,30 +94,30 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "b"
+                "a"
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "b:latest"
+                "name": "a:latest"
               }
             }
           }
         ],
         "replicas": 1,
         "selector": {
-          "deploymentconfig": "b"
+          "deploymentconfig": "a"
         },
         "template": {
           "metadata": {
             "labels": {
-              "deploymentconfig": "b"
+              "deploymentconfig": "a"
             }
           },
           "spec": {
             "containers": [
               {
-                "name": "b",
-                "image": "b",
+                "name": "a",
+                "image": "a",
                 "ports": [
                   {
                     "containerPort": 8080,
@@ -150,12 +150,13 @@
       "kind": "Route",
       "apiVersion": "v1",
       "metadata": {
-        "name": "b"
+        "name": "a"
       },
       "spec": {
+        "path": "/assets/index.html",
         "to": {
           "kind": "Service",
-          "name": "b"
+          "name": "a"
         }
       }
     },
@@ -163,7 +164,7 @@
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "b"
+        "name": "a"
       },
       "spec": {
         "ports": [
@@ -174,7 +175,7 @@
           }
         ],
         "selector": {
-          "deploymentconfig": "b"
+          "deploymentconfig": "a"
         },
         "type": "ClusterIP",
         "sessionAffinity": "None"

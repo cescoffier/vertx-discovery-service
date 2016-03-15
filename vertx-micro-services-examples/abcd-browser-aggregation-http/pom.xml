@@ -22,11 +22,4 @@
     <module>D</module>
   </modules>
 
-  <dependencies>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web</artifactId>
-    </dependency>
-  </dependencies>
-
 </project>

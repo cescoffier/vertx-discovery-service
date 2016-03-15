@@ -5,7 +5,8 @@
     <title>Micro-Service Demo - ABCD - Browser Aggregation - HTTP</title>
 
 
-    <style href="bower_components/bootstrap/css/bootstrap.css"></style>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+
     <style>
         body {
             padding-top: 50px;
@@ -21,14 +22,29 @@
 
 <div class="container">
 
-    <div class="head">
-        <h1>Vert.x Micro-Services Sample - ABCD - Browser Aggregation - HTTP</h1>
-        <p class="lead">In this sample, this page is consuming 4 services using Ajax and print the result below</p>
+    <div class="row">
+        <div class="head col-md-6">
+            <h1>Vert.x Micro-Services Sample - ABCD - Browser Aggregation - HTTP</h1>
+            <p class="lead">In this sample, this page is consuming 4 services using Ajax and print the result below.
+                Enter a parameter in the text box and click on invoke.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <form class="form-inline col-md-12">
+            <div class="form-group">
+                <label for="name">Name: </label>
+                <input type="text" class="form-control" id="name" placeholder="vert.x">
+            </div>
+            <button type="submit" class="btn btn-primary">Invoke</button>
+        </form>
     </div>
 
     <div id="result">
-
+        <h2>Result:</h2>
     </div>
+
+</div>
 
 </div>
 
@@ -38,6 +54,8 @@
 <script>
     var endpoint_a = "/A";
     var endpoint_b = "http://" + window.location.hostname.replace("a-", "b-");
+    var endpoint_c = "http://" + window.location.hostname.replace("a-", "c-");
+    var endpoint_d = "http://" + window.location.hostname.replace("a-", "d-");
 
     function invoke_a() {
         console.log("Invoking A " + endpoint_a);
@@ -46,10 +64,27 @@
         });
     }
 
+    function getName() {
+
+    }
     function invoke_b() {
         console.log("Invoking B " + endpoint_b);
-        $.get(endpoint_b + "?name=vert.x", function (data) {
+        $.get(endpoint_b, {name: getName()}, function (data) {
             $("#result").append("<p>B : " + data + "</p>");
+        });
+    }
+
+    function invoke_c() {
+        console.log("Invoking C " + endpoint_c);
+        $.get(endpoint_c + "?name=vert.x", function (data) {
+            $("#result").append("<p>C : " + data + "</p>");
+        });
+    }
+
+    function invoke_d() {
+        console.log("Invoking D " + endpoint_d);
+        $.get(endpoint_d + "?name=vert.x", function (data) {
+            $("#result").append("<p>D : " + data + "</p>");
         });
     }
 
