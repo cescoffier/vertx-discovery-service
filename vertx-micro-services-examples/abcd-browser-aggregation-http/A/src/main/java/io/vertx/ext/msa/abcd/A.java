@@ -45,7 +45,7 @@ public class A extends AbstractVerticle {
     });
 
     router.route(HttpMethod.GET, "/endpoints").handler(context -> {
-      String b = "http://" + System.getenv("B_APP_PORT").replace("tcp", "http");
+      String b = "http://" + System.getenv("B_PORT").replace("tcp", "http");
       //TODO c and d.
       JsonObject result = new JsonObject()
           .put("B", b);
