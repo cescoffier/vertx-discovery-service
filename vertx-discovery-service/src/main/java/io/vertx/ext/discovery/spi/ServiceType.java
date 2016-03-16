@@ -9,6 +9,8 @@ import io.vertx.ext.discovery.Service;
  */
 public interface ServiceType {
 
+  public static final String UNKNOWN = "unknown";
+
   String name();
 
   Service get(Vertx vertx, Record record);

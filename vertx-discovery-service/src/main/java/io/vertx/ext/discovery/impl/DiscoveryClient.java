@@ -6,17 +6,14 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.discovery.DiscoveryOptions;
-import io.vertx.ext.discovery.DiscoveryService;
-import io.vertx.ext.discovery.Record;
-import io.vertx.ext.discovery.Status;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
+import io.vertx.ext.discovery.*;
 import io.vertx.ext.discovery.spi.DiscoveryBackend;
 import io.vertx.serviceproxy.ProxyHelper;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.ServiceLoader;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +25,9 @@ public class DiscoveryClient implements DiscoveryService {
   private final MessageConsumer<JsonObject> service;
   private final String announce;
   private final DiscoveryBackend backend;
+
+  private final Set<DiscoveryBridge> bridges = new CopyOnWriteArraySet<>();
+  private final static Logger LOGGER = LoggerFactory.getLogger(DiscoveryClient.class.getName());
 
 
   public DiscoveryClient(Vertx vertx, DiscoveryOptions options) {
@@ -57,9 +57,37 @@ public class DiscoveryClient implements DiscoveryService {
 
 
   @Override
+  public void registerDiscoveryBridge(DiscoveryBridge bridge, JsonObject configuration) {
+    vertx.<Void>executeBlocking(
+        future -> {
+          bridge.start(vertx, this, configuration, (ar) -> {
+            if (ar.failed()) {
+              future.fail(ar.cause());
+            } else {
+              bridges.add(bridge);
+              future.complete();
+            }
+          });
+        },
+        ar -> {
+          if (ar.failed()) {
+            LOGGER.error("Cannot start the discovery bridge " + bridge, ar.cause());
+          } else {
+            LOGGER.info("Discovery bridge " + bridge + " started");
+          }
+        }
+    );
+  }
+
+  @Override
   public void close() {
+    LOGGER.info("Stopping discovery service");
     if (service != null) {
       service.unregister();
+    }
+
+    for (DiscoveryBridge bridge : bridges) {
+      bridge.stop(vertx, this);
     }
   }
 

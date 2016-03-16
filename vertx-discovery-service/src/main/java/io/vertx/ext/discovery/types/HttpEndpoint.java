@@ -29,12 +29,17 @@ public class HttpEndpoint implements ServiceType {
   }
 
   public static Record createRecord(String name, String host, int port, String root, JsonObject metadata) {
+   return createRecord(name, false, host, port, root, metadata);
+  }
+
+  public static Record createRecord(String name, boolean ssl, String host, int port, String root, JsonObject metadata) {
     Objects.requireNonNull(name);
     Objects.requireNonNull(host);
     Objects.requireNonNull(root);
     Record record = new Record().setName(name)
         .setType(TYPE)
-        .setLocation(new HttpLocation().setHost(host).setPort(port).setRoot(root).toJson());
+        .setLocation(new HttpLocation()
+            .setSsl(ssl).setHost(host).setPort(port).setRoot(root).toJson());
 
     if (metadata != null) {
       record.setMetadata(metadata);

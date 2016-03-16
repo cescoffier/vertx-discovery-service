@@ -146,6 +146,7 @@
     <module>vertx-discovery-service</module>
     <module>vertx-circuit-breaker</module>
     <module>vertx-micro-services-examples</module>
+    <module>vertx-discovery-bridge-kubernates</module>
   </modules>
 
 </project>

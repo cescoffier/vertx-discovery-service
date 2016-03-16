@@ -1,0 +1,184 @@
+{
+  "kind": "List",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "vertx-msa-abcd-pipeline-http-c",
+    "annotations": {
+      "description": "Vert.x Micro-Service Example - Pipeline -HTTP - C",
+      "iconClass": "icon-jboss",
+      "tags": "vert.x, eventbus, java, micro-services"
+    }
+
+  },
+  "labels": {
+    "application": "vertx-msa-abcd-pipeline-http"
+  },
+
+  "items": [
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "c"
+      },
+      "spec": {
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChange": {}
+          }
+        ],
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "https://github.com/cescoffier/vertx-discovery-service.git",
+            "ref": "samples"
+          },
+          "contextDir": "vertx-micro-services-examples/abcd-pipeline-http/C"
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+              "kind": "ImageStreamTag",
+              "name": "vertx-s2i:latest"
+            }
+          }
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "c:latest"
+          }
+        },
+        "resources": {}
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "c"
+      },
+      "spec": {
+        "dockerImageRepository": "",
+        "tags": [
+          {
+            "name": "latest"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "c"
+      },
+      "spec": {
+        "strategy": {
+          "type": "Rolling",
+          "rollingParams": {
+            "updatePeriodSeconds": 1,
+            "intervalSeconds": 1,
+            "timeoutSeconds": 600
+          },
+          "resources": {}
+        },
+        "triggers": [
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "c"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "c:latest"
+              }
+            }
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "deploymentconfig": "c"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "deploymentconfig": "c"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "c",
+                "image": "c",
+                "ports": [
+                  {
+                    "containerPort": 8080,
+                    "protocol": "TCP"
+                  }
+                ],
+                "livenessProbe": {
+                  "tcpSocket": {
+                    "port": 8080
+                  },
+                  "initialDelaySeconds": 30,
+                  "timeoutSeconds": 1
+                },
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "imagePullPolicy": "IfNotPresent",
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                }
+              }
+            ],
+            "restartPolicy": "Always",
+            "dnsPolicy": "ClusterFirst"
+          }
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "c"
+      },
+      "spec": {
+        "to": {
+          "kind": "Service",
+          "name": "c"
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "c"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "http",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "deploymentconfig": "c"
+        },
+        "type": "ClusterIP",
+        "sessionAffinity": "None"
+      }
+    }
+  ]
+}

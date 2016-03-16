@@ -7,13 +7,13 @@ import io.vertx.core.json.JsonObject;
  * @author <a href="http://escoffier.me">Clement Escoffier</a>
  */
 @DataObject(generateConverter = true)
-class HttpLocation {
-
+public class HttpLocation {
 
   private String host;
   private int port;
-  private String root;
+  private String root = "";
   private String endpoint;
+  private boolean ssl = false;
 
   public HttpLocation() {
 
@@ -76,7 +76,20 @@ class HttpLocation {
     } else {
       this.root = "/" + root;
     }
-    setEndpoint("http://" + host + ":" + port + root);
+
     return this;
+  }
+
+  private void updateLocation() {
+    setEndpoint("http" + (isSsl() ? "s" : "") + "://" + host + ":" + port + root);
+  }
+
+  public HttpLocation setSsl(boolean ssl) {
+    this.ssl = ssl;
+    return this;
+  }
+
+  public boolean isSsl() {
+    return ssl;
   }
 }

@@ -10,28 +10,17 @@
     <version>3.3.0-SNAPSHOT</version>
   </parent>
 
-
-  <artifactId>vertx-micro-services-examples</artifactId>
-
-  <packaging>pom</packaging>
-
-  <modules>
-    <module>abcd-browser-aggregation-http</module>
-    <module>abcd-pipeline-http</module>
-    <module>vertx-abcd-http</module>
-    <module>vertx-abcd-eventbus</module>
-  </modules>
+  <artifactId>vertx-discovery-bridge-kubernates</artifactId>
 
   <dependencies>
     <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-discovery-service</artifactId>
-      <version>${project.version}</version>
+      <groupId>io.fabric8</groupId>
+      <artifactId>kubernetes-client</artifactId>
+      <version>1.3.70</version>
     </dependency>
-
     <dependency>
       <groupId>io.vertx</groupId>
-      <artifactId>vertx-circuit-breaker</artifactId>
+      <artifactId>vertx-discovery-service</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

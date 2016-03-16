@@ -53,5 +53,6 @@
 |[[host]]`host`|`String`|-
 |[[port]]`port`|`Number (int)`|-
 |[[root]]`root`|`String`|-
+|[[ssl]]`ssl`|`Boolean`|-
 |===
 

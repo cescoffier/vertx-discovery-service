@@ -39,6 +39,9 @@ public class HttpLocationConverter {
     if (json.getValue("root") instanceof String) {
       obj.setRoot((String)json.getValue("root"));
     }
+    if (json.getValue("ssl") instanceof Boolean) {
+      obj.setSsl((Boolean)json.getValue("ssl"));
+    }
   }
 
   public static void toJson(HttpLocation obj, JsonObject json) {
@@ -52,5 +55,6 @@ public class HttpLocationConverter {
     if (obj.getRoot() != null) {
       json.put("root", obj.getRoot());
     }
+    json.put("ssl", obj.isSsl());
   }
 }

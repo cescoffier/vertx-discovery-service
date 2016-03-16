@@ -24,11 +24,10 @@ public class Record {
   private String type;
 
   public Record() {
-
+    // empty constructor.
   }
 
   public Record(JsonObject json) {
-    this();
     RecordConverter.fromJson(json, this);
   }
 

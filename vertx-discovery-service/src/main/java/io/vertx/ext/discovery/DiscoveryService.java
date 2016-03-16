@@ -10,8 +10,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.discovery.impl.DiscoveryClient;
 import io.vertx.ext.discovery.impl.ServiceTypes;
-import io.vertx.ext.discovery.utils.ClassLoaderUtils;
-import io.vertx.serviceproxy.ProxyHelper;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +17,6 @@ import java.util.Objects;
 /**
  * @author <a href="http://escoffier.me">Clement Escoffier</a>
  */
-@ProxyGen
 @VertxGen
 public interface DiscoveryService {
 
@@ -32,6 +29,15 @@ public interface DiscoveryService {
     Objects.requireNonNull(vertx);
     return ServiceTypes.get(record).get(vertx, record);
   }
+
+  /**
+   * Registers a discovery bridge.
+   *
+   * @param bridge        the bridge
+   * @param configuration the optional configuration
+   */
+  @GenIgnore
+  void registerDiscoveryBridge(DiscoveryBridge bridge, JsonObject configuration);
 
   @ProxyClose
   void close();
