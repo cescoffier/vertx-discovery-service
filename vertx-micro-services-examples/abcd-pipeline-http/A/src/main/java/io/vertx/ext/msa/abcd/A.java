@@ -10,6 +10,7 @@ import io.vertx.ext.circuitbreaker.CircuitBreakerOptions;
 import io.vertx.ext.discovery.DiscoveryOptions;
 import io.vertx.ext.discovery.DiscoveryService;
 import io.vertx.ext.discovery.Record;
+import io.vertx.ext.discovery.bridge.kubernates.KubernatesBridge;
 import io.vertx.ext.discovery.rest.DiscoveryRestEndpoint;
 import io.vertx.ext.discovery.types.HttpEndpoint;
 import io.vertx.ext.web.Router;
@@ -31,6 +32,10 @@ public class A extends AbstractVerticle {
   @Override
   public void start(Future<Void> future) throws Exception {
     discovery = DiscoveryService.create(vertx, new DiscoveryOptions());
+
+    discovery.registerDiscoveryBridge(new KubernatesBridge(),
+        new JsonObject().put("namespace", "vertx-msa-abcd-pipeline-http"));
+
     circuitBreaker = CircuitBreaker.create(name(), vertx,
         new CircuitBreakerOptions()
             .setMaxFailures(1)
@@ -51,13 +56,13 @@ public class A extends AbstractVerticle {
 
     Router router = Router.router(vertx);
 
-    // Publish assets
-    router.route("/assets/*").handler(StaticHandler.create("assets"));
-
     DiscoveryRestEndpoint.create(router, discovery, "/registry");
 
     // Publish the A service
     router.route(HttpMethod.GET, "/A").handler(this::handleRequest);
+
+    // Publish assets
+    router.route("/assets/*").handler(StaticHandler.create("assets"));
 
     router.route(HttpMethod.GET, "/env").handler(context -> {
       Map env = System.getenv();
