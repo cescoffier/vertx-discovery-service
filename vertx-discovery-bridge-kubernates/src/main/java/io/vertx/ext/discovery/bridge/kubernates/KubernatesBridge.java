@@ -124,8 +124,11 @@ public class KubernatesBridge implements DiscoveryBridge, Watcher<Service> {
   private Record createRecord(Service service) {
     Record record = new Record();
     record.setName(service.getMetadata().getName());
-    for (Map.Entry<String, String> entry : service.getMetadata().getLabels().entrySet()) {
-      record.getMetadata().put(entry.getKey(), entry.getValue());
+    Map<String, String> labels = service.getMetadata().getLabels();
+    if (labels != null) {
+      for (Map.Entry<String, String> entry : labels.entrySet()) {
+        record.getMetadata().put(entry.getKey(), entry.getValue());
+      }
     }
     record.getMetadata().put("kubernates.namespace", service.getMetadata().getNamespace());
     record.getMetadata().put("kubernates.name", service.getMetadata().getName());
@@ -134,29 +137,29 @@ public class KubernatesBridge implements DiscoveryBridge, Watcher<Service> {
     // Compute type
     List<ServicePort> ports = service.getSpec().getPorts();
     JsonObject defaultLocation = null;
-    for (ServicePort port : ports) {
-      if (defaultLocation == null) {
-        defaultLocation = new JsonObject();
-        if (port.getTargetPort().getIntVal() != null) {
-          defaultLocation.put("port", port.getTargetPort().getIntVal());
+    if (ports != null) {
+      for (ServicePort port : ports) {
+        if (defaultLocation == null) {
+          defaultLocation = new JsonObject();
+          if (port.getTargetPort().getIntVal() != null) {
+            defaultLocation.put("port", port.getTargetPort().getIntVal());
+          }
+          defaultLocation.put("internal-port", port.getPort());
+          defaultLocation.put("name", port.getName());
+          defaultLocation.put("protocol", port.getProtocol());
+
         }
-        defaultLocation.put("internal-port", port.getPort());
-        defaultLocation.put("name", port.getName());
-        defaultLocation.put("protocol", port.getProtocol());
+        // Right now we support only HTTP services
+        if (isHttp(port)) {
+          record.setType(TYPE)
+              .setLocation(new HttpLocation()
+                  .setHost(service.getSpec().getClusterIP())
+                  .setPort(port.getTargetPort().getIntVal()).toJson());
+          return record;
+        }
 
+        //TODO extends with some well-known data sources (mysql, postgres, mongo, redis)
       }
-      // Right now we support only HTTP services
-      if (isHttp(port)) {
-        record.setType(TYPE)
-            .setLocation(new HttpLocation()
-                .setHost(service.getSpec().getClusterIP())
-                .setPort(port.getTargetPort().getIntVal()).toJson());
-        return record;
-      }
-
-      //TODO extends with some well-known data sources (mysql, postgres, mongo, redis)
-
-
     }
 
     if (record.getType() == null) {

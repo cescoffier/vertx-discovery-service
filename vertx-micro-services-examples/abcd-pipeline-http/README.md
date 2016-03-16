@@ -13,6 +13,7 @@ oc login
 # enter admin/admin
 oc new-project vertx-msa-abcd-pipeline-http
 oc create -f https://raw.githubusercontent.com/cescoffier/vertx-s2i/master/vertx-s2i-all.json -n vertx-msa-abcd-pipeline-http
+oc policy add-role-to-group view system:serviceaccounts -n vertx-msa-abcd-pipeline-http 
 # Wait until the vertx-s2i image has been built, you can check with `oc status`
 # ....
 oc create -f C/openshift.json
