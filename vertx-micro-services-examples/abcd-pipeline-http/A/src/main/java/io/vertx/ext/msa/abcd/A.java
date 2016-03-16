@@ -39,8 +39,8 @@ public class A extends AbstractVerticle {
     circuitBreaker = CircuitBreaker.create(name(), vertx,
         new CircuitBreakerOptions()
             .setMaxFailures(1)
-            .setTimeoutInMs(1000)
-            .setResetTimeoutInMs(2000)
+            .setTimeoutInMs(5000)
+            .setResetTimeoutInMs(5000)
             .setFallbackOnFailure(true))
         .openHandler(v -> {
           System.out.println("Circuit opened");
@@ -112,7 +112,7 @@ public class A extends AbstractVerticle {
           });
         } else {
           // No record
-          context.response().setStatusCode(200).end("no service available" + message(param));
+          context.response().setStatusCode(200).end("B => no service available, " + message(param));
         }
       });
     } else {
@@ -124,7 +124,8 @@ public class A extends AbstractVerticle {
           });
         });
       }, v -> {
-        context.response().setStatusCode(200).end("no service available" + message(param));
+        context.response().setStatusCode(200)
+            .end("B => no service available, " + message(param));
       });
     }
   }
@@ -142,6 +143,6 @@ public class A extends AbstractVerticle {
   }
 
   public String message(String param) {
-    return "\n" + "Hello " + param;
+    return "\n" + "A => Hello " + param;
   }
 }

@@ -11,10 +11,8 @@ import io.vertx.ext.discovery.DiscoveryOptions;
 import io.vertx.ext.discovery.DiscoveryService;
 import io.vertx.ext.discovery.Record;
 import io.vertx.ext.discovery.rest.DiscoveryRestEndpoint;
-import io.vertx.ext.discovery.types.HttpEndpoint;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 
 import java.util.Map;
@@ -27,7 +25,6 @@ import java.util.Map;
  */
 public class C extends AbstractVerticle {
 
-  protected Record registration;
   protected HttpClient client;
   protected DiscoveryService discovery;
   protected CircuitBreaker circuitBreaker;
@@ -71,16 +68,7 @@ public class C extends AbstractVerticle {
 
     vertx.createHttpServer().requestHandler(router::accept).listen(port(), ar -> {
       if (ar.succeeded()) {
-        Record record = HttpEndpoint.createRecord(name(), "localhost", port(), "/");
-        discovery.publish(record, registered -> {
-          if (registered.succeeded()) {
-            System.out.println(name() + " registered");
-            this.registration = record;
-            future.complete();
-          } else {
-            future.fail("Registration of " + name() + " failed " + registered.cause());
-          }
-        });
+        future.complete();
       } else {
         future.fail("Cannot start the HTTP server " + ar.cause());
       }
@@ -89,12 +77,7 @@ public class C extends AbstractVerticle {
 
   @Override
   public void stop(Future future) throws Exception {
-    discovery.unpublish(registration.getRegistration(), result -> {
-      if (result.failed()) {
-        future.fail(result.cause());
-      }
-      future.complete();
-    });
+    future.complete();
   }
 
   public void handleRequest(RoutingContext context) {
@@ -109,11 +92,7 @@ public class C extends AbstractVerticle {
     return "C";
   }
 
-  public String dependency() {
-    return "none";
-  }
-
   public String message(String param) {
-    return "\n" + "Aloha " + param;
+    return "\n" + "C => Aloha " + param;
   }
 }

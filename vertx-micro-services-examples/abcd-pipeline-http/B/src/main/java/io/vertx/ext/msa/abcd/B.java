@@ -111,7 +111,8 @@ public class B extends AbstractVerticle {
           });
         } else {
           // No record
-          context.response().setStatusCode(200).end("no service available" + message(param));
+          context.response().setStatusCode(200).end("C => no service available, "
+              + message(param));
         }
       });
     } else {
@@ -123,7 +124,8 @@ public class B extends AbstractVerticle {
           });
         });
       }, v -> {
-        context.response().setStatusCode(200).end("no service available" + message(param));
+        context.response().setStatusCode(200).end("C => no service available, "
+            + message(param));
       });
     }
   }
@@ -141,6 +143,6 @@ public class B extends AbstractVerticle {
   }
 
   public String message(String param) {
-    return "\n" + "Ola " + param;
+    return "\n" + "B => Ola " + param;
   }
 }
